@@ -58,7 +58,7 @@ namespace REST_API
 
             // Registe services
             services.AddTransient<IUserRepository, UserRepository>();
-
+            services.AddTransient<IProductRepository, ProductRepository>();
 
             services.AddSwaggerGen(c =>
             {

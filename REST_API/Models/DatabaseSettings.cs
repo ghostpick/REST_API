@@ -1,4 +1,6 @@
-﻿namespace REST_API.Models
+﻿using System.Collections.Generic;
+
+namespace REST_API.Models
 {
     /// <summary>
     /// Database Settings

@@ -1,7 +1,8 @@
 ﻿using REST_API.Models;
+
 namespace REST_API.Interfaces
 {
-    public interface IUserRepository : IBaseEntity<User>
+    public interface IProductRepository: IBaseEntity<Product>
     {
     }
 }

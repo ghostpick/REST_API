@@ -79,17 +79,5 @@ namespace REST_API.Models
         /// </value>
         [BsonRepresentation(BsonType.String)]
         public string CreditCardExpiration { get; set; }
-
-        //[BsonRepresentation(BsonType.Int32)]
-        //public string PublicKeyModulus { get; set; }
-
-        //[BsonRepresentation(BsonType.Int32)]
-        //public string PublicKeyExponent { get; set; }
-
-        //public List<Purchase> Purchases { get; set; }
-
-        //public List<Order> Orders { get; set; }
-
-        //public List<Voucher> Vouchers { get; set; }
     }
 }

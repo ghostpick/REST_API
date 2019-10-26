@@ -9,10 +9,10 @@ using REST_API.Models;
 namespace REST_API.Data.Repositores
 {
     /// <summary>
-    /// User Repository
+    /// Product Repository
     /// </summary>
-    /// <seealso cref="REST_API.Interfaces.IUserRepository" />
-    public class UserRepository : IUserRepository
+    /// <seealso cref="REST_API.Interfaces.IProductRepository" />
+    public class ProductRepository : IProductRepository
     {
         /// <summary>
         /// The context
@@ -20,10 +20,10 @@ namespace REST_API.Data.Repositores
         private readonly ApplicationContext _context = null;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="UserRepository"/> class.
+        /// Initializes a new instance of the <see cref="ProductRepository"/> class.
         /// </summary>
         /// <param name="settings">The settings.</param>
-        public UserRepository(IOptions<DatabaseSettings> settings)
+        public ProductRepository(IOptions<DatabaseSettings> settings)
         {
             _context = new ApplicationContext(settings);
 
@@ -33,11 +33,11 @@ namespace REST_API.Data.Repositores
         /// Gets this instance.
         /// </summary>
         /// <returns></returns>
-        public async Task<IEnumerable<User>> Get()
+        public async Task<IEnumerable<Product>> Get()
         {
             try
             {
-                return await _context.User.Find(_ => true).ToListAsync();
+                return await _context.Product.Find(_ => true).ToListAsync();
             }
             catch
             {
@@ -50,12 +50,12 @@ namespace REST_API.Data.Repositores
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns></returns>
-        public async Task<User> Get(string value)
+        public async Task<Product> Get(string value)
         {
             try
             {
-                return await _context.User
-                                .Find(Builders<User>.Filter.Eq("Username", value))
+                return await _context.Product
+                                .Find(Builders<Product>.Filter.Eq("ProductCode", value))
                                 .FirstOrDefaultAsync();
             }
             catch
@@ -69,12 +69,12 @@ namespace REST_API.Data.Repositores
         /// </summary>
         /// <param name="entity">The entity.</param>
         /// <returns></returns>
-        public async Task<bool> Create(User entity)
+        public async Task<bool> Create(Product entity)
         {
             try
             {
                 entity.Id = MongoDB.Bson.ObjectId.GenerateNewId().ToString();
-                await _context.User.InsertOneAsync(entity);
+                await _context.Product.InsertOneAsync(entity);
                 return true;
             }
             catch
@@ -88,29 +88,29 @@ namespace REST_API.Data.Repositores
         /// </summary>
         /// <param name="entity">The entity.</param>
         /// <returns></returns>
-        public async Task<bool> Update(User entity)
+        public async Task<bool> Update(Product entity)
         {
             try
             {
                 ReplaceOneResult actionResult = null;
-                if (entity != null && entity.Username != null)
+                if (entity != null && entity.ProductCode != null)
                 {
-                    var loadedEntity = await Get(entity.Username);
+                    var loadedEntity = await Get(entity.ProductCode);
 
                     if (loadedEntity != null && loadedEntity.Id != null)
                     {
                         entity.Id = loadedEntity.Id;
-                        actionResult = await _context.User.
+                        actionResult = await _context.Product.
                             ReplaceOneAsync(
-                                Builders<User>.Filter.Eq("Username", entity.Username),
+                                Builders<Product>.Filter.Eq("ProductCode", entity.ProductCode),
                                 entity,
                                 new UpdateOptions { IsUpsert = true });
 
                     }
                 }
 
-                return
-                    actionResult != null &&
+                return 
+                    actionResult != null && 
                     actionResult.IsAcknowledged
                     && actionResult.ModifiedCount > 0;
             }
@@ -129,8 +129,8 @@ namespace REST_API.Data.Repositores
         {
             try
             {
-                DeleteResult actionResult = await _context.User.DeleteOneAsync(
-                     Builders<User>.Filter.Eq("Username", value));
+                DeleteResult actionResult = await _context.Product.DeleteOneAsync(
+                     Builders<Product>.Filter.Eq("ProductCode", value));
 
                 return actionResult.IsAcknowledged
                     && actionResult.DeletedCount > 0;
@@ -140,5 +140,6 @@ namespace REST_API.Data.Repositores
                 return false;
             }
         }
+
     }
 }

@@ -1,16 +1,12 @@
 ﻿using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using REST_API.Models;
+using System.Collections.Generic;
 
 namespace REST_API.Data
 {
     public class ApplicationContext
     {
-        /// <summary>
-        /// The database
-        /// </summary>
-        private readonly IMongoDatabase _database = null;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="ApplicationContext"/> class.
         /// </summary>
@@ -19,8 +15,18 @@ namespace REST_API.Data
         {
             var client = new MongoClient(settings.Value.ConnectionString);
             if (client != null)
-                _database = client.GetDatabase(settings.Value.Database);
+            {
+                Database = client.GetDatabase(settings.Value.Database);
+            }
         }
+
+        /// <summary>
+        /// Gets the database.
+        /// </summary>
+        /// <value>
+        /// The database.
+        /// </value>
+        public IMongoDatabase Database { get; } = null;
 
         /// <summary>
         /// Gets the user.
@@ -32,7 +38,21 @@ namespace REST_API.Data
         {
             get
             {
-                return _database.GetCollection<User>("User");
+                return Database.GetCollection<User>("User");
+            }
+        }
+
+        /// <summary>
+        /// Gets the product.
+        /// </summary>
+        /// <value>
+        /// The product.
+        /// </value>
+        public IMongoCollection<Product> Product
+        {
+            get
+            {
+                return Database.GetCollection<Product>("Product");
             }
         }
     }

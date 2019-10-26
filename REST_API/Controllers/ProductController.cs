@@ -1,28 +1,29 @@
 ﻿using System.Collections.Generic;
-using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using REST_API.Models;
+using Microsoft.AspNetCore.Mvc;
 using REST_API.Interfaces;
+using REST_API.Models;
 using REST_API.Utils;
 
 namespace REST_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class ProductController : ControllerBase
     {
-        #region Private region                
+        #region Private region        
         /// <summary>
-        /// The repo
+        /// The user repo
         /// </summary>
-        private readonly IUserRepository _repo;
+        private readonly IProductRepository _repo;
         #endregion
+
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UserController"/> class.
         /// </summary>
         /// <param name="repo">The repo.</param>
-        public UserController(IUserRepository repo)
+        public ProductController(IProductRepository repo)
         {
             _repo = repo;
         }
@@ -32,7 +33,7 @@ namespace REST_API.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IEnumerable<User>> Get()
+        public async Task<IEnumerable<Product>> Get()
         {
             return await _repo.Get();
         }
@@ -40,31 +41,27 @@ namespace REST_API.Controllers
         /// <summary>
         /// Gets the asynchronous.
         /// </summary>
-        /// <param name="username">The username.</param>
+        /// <param name="productCode">The product code.</param>
         /// <returns></returns>
-        [HttpGet("{username}")]
-        public async Task<ActionResult<User>> GetAsync(string username)
+        [HttpGet("{productCode}")]
+        public async Task<ActionResult<Product>> GetAsync(string productCode)
         {
-            var entity =  await _repo.Get(username) ?? new User();
+            var entity = await _repo.Get(productCode) ?? new Product();
 
             if (entity != null && entity.Id != null)
             {
                 return entity;
-            }
-            else
-            {
-                return NotFound();
-            }
 
+            }
+            return NotFound();
         }
 
         /// <summary>
         /// Creates the specified entity.
         /// </summary>
         /// <param name="entity">The entity.</param>
-        /// <returns></returns>
         [HttpPost]
-        public async Task<ActionResult<bool>> Create(User entity)
+        public async Task<ActionResult<bool>> Create(Product entity)
         {
             if (await _repo.Create(entity) == true)
             {
@@ -76,14 +73,13 @@ namespace REST_API.Controllers
             }
         }
 
-
         /// <summary>
         /// Updates the specified entity.
         /// </summary>
         /// <param name="entity">The entity.</param>
         /// <returns></returns>
         [HttpPut]
-        public async Task<ActionResult<bool>> Update(User entity)
+        public async Task<ActionResult<bool>> Update(Product entity)
         {
             if (await _repo.Update(entity) == true)
             {
@@ -96,17 +92,17 @@ namespace REST_API.Controllers
         }
 
         /// <summary>
-        /// Deletes the specified username.
+        /// Deletes the specified product code.
         /// </summary>
-        /// <param name="username">The username.</param>
+        /// <param name="productCode">The product code.</param>
         /// <returns></returns>
-        [HttpDelete("{username}")]
-        public async Task<ActionResult<bool>> Delete(string username)
+        [HttpDelete("{productCode}")]
+        public async Task<ActionResult<bool>> DeleteAsync(string productCode)
         {
-            var ent = await _repo.Get(username);
+            var ent = await _repo.Get(productCode);
             if (ent != null && ent.Id != null)
             {
-                if (await _repo.Remove(username) == true)
+                if(await _repo.Remove(productCode) == true)
                 {
                     return StatusCode(200, new { result = Messages.MESSAGE_005 });
                 }
