@@ -42,13 +42,13 @@ namespace REST_API.Data.Repositores
         }
 
         /// <summary>
-        /// Gets the specified identifier.
+        /// Gets the specified username.
         /// </summary>
-        /// <param name="id">The identifier.</param>
+        /// <param name="username">The username.</param>
         /// <returns></returns>
-        public async Task<User> Get(string id)
+        public async Task<User> Get(string username)
         {
-            var filter = Builders<User>.Filter.Eq("Id", id);
+            var filter = Builders<User>.Filter.Eq("Username", username);
 
             try
             {

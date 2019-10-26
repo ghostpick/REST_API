@@ -13,11 +13,11 @@ namespace REST_API.Interfaces
         Task<IEnumerable<User>> Get();
 
         /// <summary>
-        /// Gets the specified identifier.
+        /// Gets the specified username.
         /// </summary>
-        /// <param name="id">The identifier.</param>
+        /// <param name="username">The username.</param>
         /// <returns></returns>
-        Task<User> Get(string id);
+        Task<User> Get(string username);
 
         /// <summary>
         /// Creates the specified user.

@@ -17,13 +17,14 @@ namespace REST_API.Models
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
 
+
         /// <summary>
-        /// Gets or sets the usermane.
+        /// Gets or sets the username.
         /// </summary>
         /// <value>
-        /// The usermane.
+        /// The username.
         /// </value>
-        public string Usermane { get; set; }
+        public string Username { get; set; }
 
         /// <summary>
         /// Gets or sets the password.
@@ -33,20 +34,51 @@ namespace REST_API.Models
         /// </value>
         public string Password { get; set; }
 
-        //[BsonRepresentation(BsonType.String)]
-        //public string Name { get; set; }
 
-        //[BsonRepresentation(BsonType.Int32)]
-        //public string NIF { get; set; }
+        /// <summary>
+        /// Gets or sets the name.
+        /// </summary>
+        /// <value>
+        /// The name.
+        /// </value>
+        [BsonRepresentation(BsonType.String)]
+        public string Name { get; set; }
 
-        //[BsonRepresentation(BsonType.Int32)]
-        //public string CreditCardNumber { get; set; }
+        /// <summary>
+        /// Gets or sets the nif.
+        /// </summary>
+        /// <value>
+        /// The nif.
+        /// </value>
+        [BsonRepresentation(BsonType.Int32)]
+        public long Nif { get; set; }
 
-        //[BsonRepresentation(BsonType.Int32)]
-        //public string CreditCardType { get; set; }
+        /// <summary>
+        /// Gets or sets the credit card number.
+        /// </summary>
+        /// <value>
+        /// The credit card number.
+        /// </value>
+        [BsonRepresentation(BsonType.Int64)]
+        public long CreditCardNumber { get; set; }
 
-        //[BsonRepresentation(BsonType.Int32)]
-        //public string CreditCardExpiration { get; set; }
+        /// <summary>
+        /// Gets or sets the type of the credit card.
+        /// </summary>
+        /// <value>
+        /// The type of the credit card.
+        /// </value>
+        [BsonRepresentation(BsonType.Int32)]
+        public long CreditCardType { get; set; }
+
+        /// <summary>
+        /// Gets or sets the credit card expiration.
+        /// </summary>
+        /// <value>
+        /// The credit card expiration.
+        /// </value>
+        [BsonRepresentation(BsonType.String)]
+        public string CreditCardExpiration { get; set; }
 
         //[BsonRepresentation(BsonType.Int32)]
         //public string PublicKeyModulus { get; set; }

@@ -40,12 +40,12 @@ namespace REST_API.Controllers
         /// <summary>
         /// Gets the asynchronous.
         /// </summary>
-        /// <param name="id">The identifier.</param>
+        /// <param name="username">The username.</param>
         /// <returns></returns>
-        [HttpGet("{id:length(24)}", Name = "GetUser")]
-        public async Task<ActionResult<User>> GetAsync(string id)
+        [HttpGet("{username}")]
+        public async Task<ActionResult<User>> GetAsync(string username)
         {
-            var user =  await _userRepo.Get(id) ?? new User();
+            var user =  await _userRepo.Get(username) ?? new User();
 
             if (user == null)
             {
