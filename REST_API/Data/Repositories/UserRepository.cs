@@ -69,17 +69,18 @@ namespace REST_API.Data.Repositores
         /// </summary>
         /// <param name="entity">The entity.</param>
         /// <returns></returns>
-        public async Task<bool> Create(User entity)
+        public async Task<User> Create(User entity)
         {
             try
             {
                 entity.Id = MongoDB.Bson.ObjectId.GenerateNewId().ToString();
+                
                 await _context.User.InsertOneAsync(entity);
-                return true;
+                return entity;
             }
             catch
             {
-                return false;
+                return null;
             }
         }
 

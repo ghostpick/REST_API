@@ -27,7 +27,7 @@ namespace REST_API.Interfaces
         /// </summary>
         /// <param name="entity">The entity.</param>
         /// <returns></returns>
-        Task<bool> Create(T entity);
+        Task<T> Create(T entity);
 
         /// <summary>
         /// Updates the specified key.

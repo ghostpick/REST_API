@@ -61,11 +61,13 @@ namespace REST_API.Controllers
         /// </summary>
         /// <param name="entity">The entity.</param>
         [HttpPost]
-        public async Task<ActionResult<bool>> Create(Product entity)
+        public async Task<ActionResult<Product>> Create(Product entity)
         {
-            if (await _repo.Create(entity) == true)
+            Product entityCreated = await _repo.Create(entity);
+
+            if (entityCreated != null)
             {
-                return StatusCode(200, new { result = Messages.MESSAGE_001 });
+                return entityCreated;
             }
             else
             {

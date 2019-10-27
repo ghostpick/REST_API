@@ -24,6 +24,7 @@ namespace REST_API.Models
         /// <value>
         /// The username.
         /// </value>
+        [BsonRepresentation(BsonType.String), BsonElement(elementName: "Username")]
         public string Username { get; set; }
 
         /// <summary>
@@ -32,6 +33,7 @@ namespace REST_API.Models
         /// <value>
         /// The password.
         /// </value>
+        [BsonRepresentation(BsonType.String), BsonElement(elementName: "Password")]
         public string Password { get; set; }
 
 
@@ -41,7 +43,7 @@ namespace REST_API.Models
         /// <value>
         /// The name.
         /// </value>
-        [BsonRepresentation(BsonType.String)]
+        [BsonRepresentation(BsonType.String), BsonElement(elementName: "Name")]
         public string Name { get; set; }
 
         /// <summary>
@@ -50,8 +52,8 @@ namespace REST_API.Models
         /// <value>
         /// The nif.
         /// </value>
-        [BsonRepresentation(BsonType.Int32)]
-        public long Nif { get; set; }
+        [BsonRepresentation(BsonType.String), BsonElement(elementName: "Nif")]
+        public string Nif { get; set; }
 
         /// <summary>
         /// Gets or sets the credit card number.
@@ -59,8 +61,8 @@ namespace REST_API.Models
         /// <value>
         /// The credit card number.
         /// </value>
-        [BsonRepresentation(BsonType.Int64)]
-        public long CreditCardNumber { get; set; }
+        [BsonRepresentation(BsonType.String), BsonElement(elementName: "CreditCardNumber")]
+        public string CreditCardNumber { get; set; }
 
         /// <summary>
         /// Gets or sets the type of the credit card.
@@ -68,8 +70,8 @@ namespace REST_API.Models
         /// <value>
         /// The type of the credit card.
         /// </value>
-        [BsonRepresentation(BsonType.Int32)]
-        public long CreditCardType { get; set; }
+        [BsonRepresentation(BsonType.String), BsonElement(elementName: "CreditCardType")]
+        public string CreditCardType { get; set; }
 
         /// <summary>
         /// Gets or sets the credit card expiration.
@@ -77,7 +79,7 @@ namespace REST_API.Models
         /// <value>
         /// The credit card expiration.
         /// </value>
-        [BsonRepresentation(BsonType.String)]
+        [BsonRepresentation(BsonType.String), BsonElement(elementName: "CreditCardExpiration")]
         public string CreditCardExpiration { get; set; }
     }
 }
