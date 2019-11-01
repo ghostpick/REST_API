@@ -57,6 +57,18 @@ namespace REST_API.Controllers
         }
 
         /// <summary>
+        /// Gets the orders of user.
+        /// </summary>
+        /// <param name="username">The username.</param>
+        /// <param name="state">The state.</param>
+        /// <returns></returns>
+        [HttpGet("OrdersOfUser/{username}")]
+        public async Task<List<OrderProducts>> GetOrdersOfUser(string username, string state = null)
+        {
+            return await _repo.GetOrdersOfUserAsync(username, state);
+        }
+
+        /// <summary>
         /// Creates the specified entity.
         /// </summary>
         /// <param name="entity">The entity.</param>

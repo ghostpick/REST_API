@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using REST_API.Interfaces;
 using REST_API.Models;
+using MongoDB.Bson;
 
 namespace REST_API.Data.Repositores
 {
@@ -109,8 +110,8 @@ namespace REST_API.Data.Repositores
                     }
                 }
 
-                return 
-                    actionResult != null && 
+                return
+                    actionResult != null &&
                     actionResult.IsAcknowledged
                     && actionResult.ModifiedCount > 0;
             }
@@ -141,5 +142,46 @@ namespace REST_API.Data.Repositores
             }
         }
 
+        /// <summary>
+        /// Gets the orders of user asynchronous.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <param name="state">The state.</param>
+        /// <returns></returns>
+        public async Task<List<OrderProducts>> GetOrdersOfUserAsync(string value, string state)
+        {
+            var options = new AggregateOptions()
+            {
+                AllowDiskUse = false
+            };
+
+            List<BsonDocument> filter = new List<BsonDocument>();
+            // username
+            filter.Add(
+                new BsonDocument("$match", 
+                new BsonDocument().Add("Username", value)));
+
+            if(state != null)
+            {
+                filter.Add(
+                    new BsonDocument("$match",
+                    new BsonDocument().Add("State", state)));
+            }
+
+            // join products
+            filter.Add(
+                new BsonDocument("$lookup", new BsonDocument()
+                        .Add("from", "Product")
+                        .Add("localField", "ProductCode")
+                        .Add("foreignField", "ProductCode")
+                        .Add("as", "Product")));
+
+
+            PipelineDefinition<BsonDocument, OrderProducts> pipeline = filter;
+
+            var response = await _context.Database.GetCollection<BsonDocument>("Order")
+                .AggregateAsync(pipeline, options);
+            return await response.ToListAsync();
+        }
     }
 }

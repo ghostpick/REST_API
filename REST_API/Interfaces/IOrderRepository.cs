@@ -6,5 +6,12 @@ namespace REST_API.Interfaces
 {
     public interface IOrderRepository : IBaseEntity<Order>
     {
+        /// <summary>
+        /// Gets the orders of user asynchronous.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <param name="state">The state.</param>
+        /// <returns></returns>
+        Task<List<OrderProducts>> GetOrdersOfUserAsync(string value, string state);
     }
 }
