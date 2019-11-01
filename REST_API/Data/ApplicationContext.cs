@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using REST_API.Models;
-using System.Collections.Generic;
 
 namespace REST_API.Data
 {
@@ -53,6 +52,34 @@ namespace REST_API.Data
             get
             {
                 return Database.GetCollection<Product>("Product");
+            }
+        }
+
+        /// <summary>
+        /// Gets the order.
+        /// </summary>
+        /// <value>
+        /// The order.
+        /// </value>
+        public IMongoCollection<Order> Order
+        {
+            get
+            {
+                return Database.GetCollection<Order>("Order");
+            }
+        }
+
+        /// <summary>
+        /// Gets the voucher.
+        /// </summary>
+        /// <value>
+        /// The voucher.
+        /// </value>
+        public IMongoCollection<Voucher> Voucher
+        {
+            get
+            {
+                return Database.GetCollection<Voucher>("Voucher");
             }
         }
     }

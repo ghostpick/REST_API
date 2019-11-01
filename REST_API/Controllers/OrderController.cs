@@ -9,21 +9,21 @@ namespace REST_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductController : ControllerBase
+    public class OrderController : ControllerBase
     {
         #region Private region        
         /// <summary>
         /// The user repo
         /// </summary>
-        private readonly IProductRepository _repo;
+        private readonly IOrderRepository _repo;
         #endregion
 
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ProductController"/> class.
+        /// Initializes a new instance of the <see cref="OrderController"/> class.
         /// </summary>
         /// <param name="repo">The repo.</param>
-        public ProductController(IProductRepository repo)
+        public OrderController(IOrderRepository repo)
         {
             _repo = repo;
         }
@@ -33,7 +33,7 @@ namespace REST_API.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IEnumerable<Product>> Get()
+        public async Task<IEnumerable<Order>> Get()
         {
             return await _repo.Get();
         }
@@ -41,12 +41,12 @@ namespace REST_API.Controllers
         /// <summary>
         /// Gets the asynchronous.
         /// </summary>
-        /// <param name="productCode">The product code.</param>
+        /// <param name="orderId">The order identifier.</param>
         /// <returns></returns>
-        [HttpGet("{productCode}")]
-        public async Task<ActionResult<Product>> GetAsync(string productCode)
+        [HttpGet("{orderId}")]
+        public async Task<ActionResult<Order>> GetAsync(string orderId)
         {
-            var entity = await _repo.Get(productCode) ?? new Product();
+            var entity = await _repo.Get(orderId) ?? new Order();
 
             if (entity != null && entity.Id != null)
             {
@@ -61,9 +61,9 @@ namespace REST_API.Controllers
         /// </summary>
         /// <param name="entity">The entity.</param>
         [HttpPost]
-        public async Task<ActionResult<Product>> Create(Product entity)
+        public async Task<ActionResult<Order>> Create(Order entity)
         {
-            Product entityCreated = await _repo.Create(entity);
+            Order entityCreated = await _repo.Create(entity);
 
             if (entityCreated != null)
             {
@@ -81,7 +81,7 @@ namespace REST_API.Controllers
         /// <param name="entity">The entity.</param>
         /// <returns></returns>
         [HttpPut]
-        public async Task<ActionResult<bool>> Update(Product entity)
+        public async Task<ActionResult<bool>> Update(Order entity)
         {
             if (await _repo.Update(entity) == true)
             {
@@ -96,15 +96,15 @@ namespace REST_API.Controllers
         /// <summary>
         /// Deletes the specified product code.
         /// </summary>
-        /// <param name="productCode">The product code.</param>
+        /// <param name="orderId">The product code.</param>
         /// <returns></returns>
-        [HttpDelete("{productCode}")]
-        public async Task<ActionResult<bool>> DeleteAsync(string productCode)
+        [HttpDelete("{orderId}")]
+        public async Task<ActionResult<bool>> DeleteAsync(string orderId)
         {
-            var ent = await _repo.Get(productCode);
-            if (ent != null && ent.Id != null)
+            var ent = await _repo.Get(orderId);
+            if (ent != null && ent != null)
             {
-                if(await _repo.Remove(productCode) == true)
+                if(await _repo.Remove(orderId) == true)
                 {
                     return StatusCode(200, new { result = Messages.MESSAGE_005 });
                 }

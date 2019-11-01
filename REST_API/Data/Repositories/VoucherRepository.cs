@@ -8,10 +8,10 @@ using REST_API.Models;
 namespace REST_API.Data.Repositores
 {
     /// <summary>
-    /// Product Repository
+    /// Voucher Repository
     /// </summary>
-    /// <seealso cref="REST_API.Interfaces.IProductRepository" />
-    public class ProductRepository : IProductRepository
+    /// <seealso cref="REST_API.Interfaces.IVoucherRepository" />
+    public class VoucherRepository : IVoucherRepository
     {
         /// <summary>
         /// The context
@@ -22,7 +22,7 @@ namespace REST_API.Data.Repositores
         /// Initializes a new instance of the <see cref="ProductRepository"/> class.
         /// </summary>
         /// <param name="settings">The settings.</param>
-        public ProductRepository(IOptions<DatabaseSettings> settings)
+        public VoucherRepository(IOptions<DatabaseSettings> settings)
         {
             _context = new ApplicationContext(settings);
 
@@ -32,11 +32,11 @@ namespace REST_API.Data.Repositores
         /// Gets this instance.
         /// </summary>
         /// <returns></returns>
-        public async Task<IEnumerable<Product>> Get()
+        public async Task<IEnumerable<Voucher>> Get()
         {
             try
             {
-                return await _context.Product.Find(_ => true).ToListAsync();
+                return await _context.Voucher.Find(_ => true).ToListAsync();
             }
             catch
             {
@@ -49,12 +49,12 @@ namespace REST_API.Data.Repositores
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns></returns>
-        public async Task<Product> Get(string value)
+        public async Task<Voucher> Get(string value)
         {
             try
             {
-                return await _context.Product
-                                .Find(Builders<Product>.Filter.Eq("ProductCode", value))
+                return await _context.Voucher
+                                .Find(Builders<Voucher>.Filter.Eq("VoucherId", value))
                                 .FirstOrDefaultAsync();
             }
             catch
@@ -68,12 +68,12 @@ namespace REST_API.Data.Repositores
         /// </summary>
         /// <param name="entity">The entity.</param>
         /// <returns></returns>
-        public async Task<Product> Create(Product entity)
+        public async Task<Voucher> Create(Voucher entity)
         {
             try
             {
                 entity.Id = MongoDB.Bson.ObjectId.GenerateNewId().ToString();
-                await _context.Product.InsertOneAsync(entity);
+                await _context.Voucher.InsertOneAsync(entity);
                 return entity;
             }
             catch
@@ -87,21 +87,21 @@ namespace REST_API.Data.Repositores
         /// </summary>
         /// <param name="entity">The entity.</param>
         /// <returns></returns>
-        public async Task<bool> Update(Product entity)
+        public async Task<bool> Update(Voucher entity)
         {
             try
             {
                 ReplaceOneResult actionResult = null;
-                if (entity != null && entity.ProductCode != null)
+                if (entity != null && entity.VoucherId != null)
                 {
-                    var loadedEntity = await Get(entity.ProductCode);
+                    var loadedEntity = await Get(entity.VoucherId);
 
                     if (loadedEntity != null && loadedEntity.Id != null)
                     {
                         entity.Id = loadedEntity.Id;
-                        actionResult = await _context.Product.
+                        actionResult = await _context.Voucher.
                             ReplaceOneAsync(
-                                Builders<Product>.Filter.Eq("ProductCode", entity.ProductCode),
+                                Builders<Voucher>.Filter.Eq("VoucherId", entity.VoucherId),
                                 entity,
                                 new UpdateOptions { IsUpsert = true });
 
@@ -128,8 +128,8 @@ namespace REST_API.Data.Repositores
         {
             try
             {
-                DeleteResult actionResult = await _context.Product.DeleteOneAsync(
-                     Builders<Product>.Filter.Eq("ProductCode", value));
+                DeleteResult actionResult = await _context.Voucher.DeleteOneAsync(
+                     Builders<Voucher>.Filter.Eq("VoucherId", value));
 
                 return actionResult.IsAcknowledged
                     && actionResult.DeletedCount > 0;

@@ -59,10 +59,12 @@ namespace REST_API
             // Registe services
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IProductRepository, ProductRepository>();
+            services.AddTransient<IVoucherRepository, VoucherRepository>();
+            services.AddTransient<IOrderRepository, OrderRepository>();
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info { Title = "Ticket and Payment System", Version = "v1" });
+                c.SwaggerDoc("v1", new Info { Title = "The Acme Electronic Supermarket" });
             });
 
         }
@@ -86,7 +88,7 @@ namespace REST_API
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Ticket and Payment System");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "The Acme Electronic Supermarket");
                 c.RoutePrefix = string.Empty;
             });
         }

@@ -8,21 +8,22 @@ using REST_API.Models;
 namespace REST_API.Data.Repositores
 {
     /// <summary>
-    /// Product Repository
+    /// Order Repository
     /// </summary>
-    /// <seealso cref="REST_API.Interfaces.IProductRepository" />
-    public class ProductRepository : IProductRepository
+    /// <seealso cref="REST_API.Interfaces.IOrderRepository" />
+    public class OrderRepository : IOrderRepository
     {
         /// <summary>
         /// The context
         /// </summary>
         private readonly ApplicationContext _context = null;
 
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="ProductRepository"/> class.
+        /// Initializes a new instance of the <see cref="OrderRepository"/> class.
         /// </summary>
         /// <param name="settings">The settings.</param>
-        public ProductRepository(IOptions<DatabaseSettings> settings)
+        public OrderRepository(IOptions<DatabaseSettings> settings)
         {
             _context = new ApplicationContext(settings);
 
@@ -32,11 +33,11 @@ namespace REST_API.Data.Repositores
         /// Gets this instance.
         /// </summary>
         /// <returns></returns>
-        public async Task<IEnumerable<Product>> Get()
+        public async Task<IEnumerable<Order>> Get()
         {
             try
             {
-                return await _context.Product.Find(_ => true).ToListAsync();
+                return await _context.Order.Find(_ => true).ToListAsync();
             }
             catch
             {
@@ -49,12 +50,12 @@ namespace REST_API.Data.Repositores
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns></returns>
-        public async Task<Product> Get(string value)
+        public async Task<Order> Get(string value)
         {
             try
             {
-                return await _context.Product
-                                .Find(Builders<Product>.Filter.Eq("ProductCode", value))
+                return await _context.Order
+                                .Find(Builders<Order>.Filter.Eq("OrderId", value))
                                 .FirstOrDefaultAsync();
             }
             catch
@@ -68,12 +69,12 @@ namespace REST_API.Data.Repositores
         /// </summary>
         /// <param name="entity">The entity.</param>
         /// <returns></returns>
-        public async Task<Product> Create(Product entity)
+        public async Task<Order> Create(Order entity)
         {
             try
             {
                 entity.Id = MongoDB.Bson.ObjectId.GenerateNewId().ToString();
-                await _context.Product.InsertOneAsync(entity);
+                await _context.Order.InsertOneAsync(entity);
                 return entity;
             }
             catch
@@ -87,21 +88,21 @@ namespace REST_API.Data.Repositores
         /// </summary>
         /// <param name="entity">The entity.</param>
         /// <returns></returns>
-        public async Task<bool> Update(Product entity)
+        public async Task<bool> Update(Order entity)
         {
             try
             {
                 ReplaceOneResult actionResult = null;
-                if (entity != null && entity.ProductCode != null)
+                if (entity != null && entity.OrderId != null)
                 {
-                    var loadedEntity = await Get(entity.ProductCode);
+                    var loadedEntity = await Get(entity.OrderId);
 
                     if (loadedEntity != null && loadedEntity.Id != null)
                     {
                         entity.Id = loadedEntity.Id;
-                        actionResult = await _context.Product.
+                        actionResult = await _context.Order.
                             ReplaceOneAsync(
-                                Builders<Product>.Filter.Eq("ProductCode", entity.ProductCode),
+                                Builders<Order>.Filter.Eq("OrderId", entity.OrderId),
                                 entity,
                                 new UpdateOptions { IsUpsert = true });
 
@@ -128,8 +129,8 @@ namespace REST_API.Data.Repositores
         {
             try
             {
-                DeleteResult actionResult = await _context.Product.DeleteOneAsync(
-                     Builders<Product>.Filter.Eq("ProductCode", value));
+                DeleteResult actionResult = await _context.Order.DeleteManyAsync(
+                     Builders<Order>.Filter.Eq("OrderId", value));
 
                 return actionResult.IsAcknowledged
                     && actionResult.DeletedCount > 0;
