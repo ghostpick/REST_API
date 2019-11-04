@@ -82,5 +82,19 @@ namespace REST_API.Data
                 return Database.GetCollection<Voucher>("Voucher");
             }
         }
+
+        /// <summary>
+        /// Gets the configuration.
+        /// </summary>
+        /// <value>
+        /// The configuration.
+        /// </value>
+        public IMongoCollection<Config> Config
+        {
+            get
+            {
+                return Database.GetCollection<Config>("Config");
+            }
+        }
     }
 }

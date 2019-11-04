@@ -81,5 +81,24 @@ namespace REST_API.Models
         /// </value>
         [BsonRepresentation(BsonType.String), BsonElement(elementName: "CreditCardExpiration")]
         public string CreditCardExpiration { get; set; }
+
+        /// <summary>
+        /// Gets or sets the public key modulus.
+        /// </summary>
+        /// <value>
+        /// The public key modulus.
+        /// </value>
+        [BsonRepresentation(BsonType.String), BsonElement(elementName: "PublicKeyModulus")]
+        public string PublicKeyModulus { get; set; }
+
+        /// <summary>
+        /// Gets or sets the public key exponent.
+        /// </summary>
+        /// <value>
+        /// The public key exponent.
+        /// </value>
+        [BsonRepresentation(BsonType.String), BsonElement(elementName: "PublicKeyExponent")]
+        public string PublicKeyExponent { get; set; }
+
     }
 }

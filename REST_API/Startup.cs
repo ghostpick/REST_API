@@ -61,6 +61,7 @@ namespace REST_API
             services.AddTransient<IProductRepository, ProductRepository>();
             services.AddTransient<IVoucherRepository, VoucherRepository>();
             services.AddTransient<IOrderRepository, OrderRepository>();
+            services.AddTransient<IConfigRepository, ConfigRepository>();
 
             services.AddSwaggerGen(c =>
             {
