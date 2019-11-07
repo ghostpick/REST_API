@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using REST_API.Interfaces;
 using REST_API.Models;
 using MongoDB.Bson;
+using System;
 
 namespace REST_API.Data.Repositores
 {
@@ -191,7 +192,7 @@ namespace REST_API.Data.Repositores
         /// <returns></returns>
         public async Task<string> CreateOrdersForMultipleObjects(List<Order> orders)
         {
-            string orderId = MongoDB.Bson.ObjectId.GenerateNewId().ToString();
+            string orderId = Guid.NewGuid().ToString().ToUpper().Substring(4, 24);
             List<Order> ordersForCreate = new List<Order>();
             foreach (var order in orders)
             {
