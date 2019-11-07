@@ -88,6 +88,16 @@ namespace REST_API.Controllers
         }
 
         /// <summary>
+        /// Creates the specified entity.
+        /// </summary>
+        /// <param name="entity">The entity.</param>
+        [HttpPost("CreateOrdersForMultipleObjects/")]
+        public async Task<string> CreateOrdersForMultipleObjects([FromBody] List<Order> orders)
+        {
+            return await _repo.CreateOrdersForMultipleObjects(orders);
+        }
+
+        /// <summary>
         /// Updates the specified entity.
         /// </summary>
         /// <param name="entity">The entity.</param>

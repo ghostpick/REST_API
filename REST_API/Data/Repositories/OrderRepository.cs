@@ -183,5 +183,28 @@ namespace REST_API.Data.Repositores
                 .AggregateAsync(pipeline, options);
             return await response.ToListAsync();
         }
+
+        /// <summary>
+        /// Creates the orders for multiple objects.
+        /// </summary>
+        /// <param name="orders">The orders.</param>
+        /// <returns></returns>
+        public async Task<string> CreateOrdersForMultipleObjects(List<Order> orders)
+        {
+            string orderId = MongoDB.Bson.ObjectId.GenerateNewId().ToString();
+            List<Order> ordersForCreate = new List<Order>();
+            foreach (var order in orders)
+            {
+                Order orderForCreate = new Order();
+                orderForCreate = order;
+                orderForCreate.OrderId = orderId;
+                orderForCreate.State = "In Progress";
+                ordersForCreate.Add(orderForCreate);
+            }
+
+            await _context.Order.InsertManyAsync(orders);
+
+            return orderId;
+        }
     }
 }

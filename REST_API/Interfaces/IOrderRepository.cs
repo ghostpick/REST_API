@@ -13,5 +13,12 @@ namespace REST_API.Interfaces
         /// <param name="state">The state.</param>
         /// <returns></returns>
         Task<List<OrderProducts>> GetOrdersOfUserAsync(string value, string state);
+
+        /// <summary>
+        /// Creates the orders for multiple objects.
+        /// </summary>
+        /// <param name="orders">The orders.</param>
+        /// <returns></returns>
+        Task<string> CreateOrdersForMultipleObjects(List<Order> orders);
     }
 }
