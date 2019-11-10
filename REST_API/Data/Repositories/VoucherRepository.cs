@@ -108,8 +108,8 @@ namespace REST_API.Data.Repositores
                     }
                 }
 
-                return 
-                    actionResult != null && 
+                return
+                    actionResult != null &&
                     actionResult.IsAcknowledged
                     && actionResult.ModifiedCount > 0;
             }
@@ -140,5 +140,22 @@ namespace REST_API.Data.Repositores
             }
         }
 
+
+        /// <summary>
+        /// Gets the users vouche.
+        /// </summary>
+        /// <param name="username">The username.</param>
+        /// <param name="state">The state.</param>
+        /// <returns></returns>
+        public async Task<IEnumerable<Voucher>> GetUsersVoucher(string username, string state)
+        {
+            var filters =
+                Builders<Voucher>.Filter.Eq(f => f.Username, username) &
+                Builders<Voucher>.Filter.Eq(f => f.State, state);
+
+            return await _context.Voucher
+                            .Find(filters)
+                            .ToListAsync();
+        }
     }
 }

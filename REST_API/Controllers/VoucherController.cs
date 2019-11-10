@@ -118,5 +118,27 @@ namespace REST_API.Controllers
                 return StatusCode(400, new { result = Messages.MESSAGE_006 });
             }
         }
+
+        /// <summary>
+        /// Gets the active vouchers.
+        /// </summary>
+        /// <param name="username">The username.</param>
+        /// <returns></returns>
+        [HttpGet("GetActiveVouchers/")]
+        public async Task<IEnumerable<Voucher>> GetActiveVouchers(string username)
+        {
+            return await _repo.GetUsersVoucher(username, "Active");
+        }
+
+        /// <summary>
+        /// Gets the in progress vouchers.
+        /// </summary>
+        /// <param name="username">The username.</param>
+        /// <returns></returns>
+        [HttpGet("GetInProgressVouchers/")]
+        public async Task<IEnumerable<Voucher>> GetInProgressVouchers(string username)
+        {
+            return await _repo.GetUsersVoucher(username, "In Progress");
+        }
     }
 }

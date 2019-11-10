@@ -44,5 +44,15 @@ namespace REST_API.Models
         [BsonRepresentation(BsonType.Double), BsonElement(elementName: "Price")]
         public double Price { get; set; }
 
+
+        /// <summary>
+        /// Gets or sets the type of the produc.
+        /// </summary>
+        /// <value>
+        /// The type of the produc.
+        /// </value>
+        [BsonRepresentation(BsonType.String), BsonElement(elementName: "ProducType")]
+        public string ProducType { get; set; }
+
     }
 }

@@ -27,6 +27,15 @@ namespace REST_API.Models
         public string VoucherId { get; set; }
 
         /// <summary>
+        /// Gets or sets the order identifier.
+        /// </summary>
+        /// <value>
+        /// The order identifier.
+        /// </value>
+        [BsonRepresentation(BsonType.ObjectId), BsonElement(elementName: "VoucherName")]
+        public string VoucherName { get; set; }
+
+        /// <summary>
         /// Gets or sets the username.
         /// </summary>
         /// <value>
@@ -43,6 +52,15 @@ namespace REST_API.Models
         /// </value>
         [BsonRepresentation(BsonType.String), BsonElement(elementName: "ProductCode")]
         public string ProductCode { get; set; }
+
+        /// <summary>
+        /// Gets or sets the type of the produc.
+        /// </summary>
+        /// <value>
+        /// The type of the produc.
+        /// </value>
+        [BsonRepresentation(BsonType.String), BsonElement(elementName: "ProducType")]
+        public string ProducType { get; set; }
 
 
         /// <summary>
@@ -69,7 +87,7 @@ namespace REST_API.Models
         /// <value>
         /// The rate.
         /// </value>
-        [BsonRepresentation(BsonType.Double), BsonElement(elementName: "Rate")]
-        public double Rate { get; set; }
+        [BsonRepresentation(BsonType.Double), BsonElement(elementName: "StateProgress")]
+        public double StateProgress { get; set; }
     }
 }
