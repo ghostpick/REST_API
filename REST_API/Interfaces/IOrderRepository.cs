@@ -20,5 +20,12 @@ namespace REST_API.Interfaces
         /// <param name="orders">The orders.</param>
         /// <returns></returns>
         Task<string> CreateOrdersForMultipleObjects(List<Order> orders);
+
+        /// <summary>
+        /// Completes the order.
+        /// </summary>
+        /// <param name="orderId">The order identifier.</param>
+        /// <returns></returns>
+        Task<bool> CompleteOrder(string orderId);
     }
 }

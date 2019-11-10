@@ -140,5 +140,16 @@ namespace REST_API.Controllers
                 return StatusCode(400, new { result = Messages.MESSAGE_006 });
             }
         }
+
+        /// <summary>
+        /// Completes the order.
+        /// </summary>
+        /// <param name="orderId">The order identifier.</param>
+        /// <returns></returns>
+        [HttpPatch("CompleteOrder/")]
+        public async Task<bool> CompleteOrder(string orderId)
+        {
+            return await _repo.CompleteOrder(orderId);
+        }
     }
 }

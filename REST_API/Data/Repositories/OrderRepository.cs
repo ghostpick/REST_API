@@ -207,5 +207,42 @@ namespace REST_API.Data.Repositores
 
             return orderId;
         }
+
+        /// <summary>
+        /// Completes the order.
+        /// </summary>
+        /// <param name="orderId">The order identifier.</param>
+        /// <returns></returns>
+        public async Task<bool> CompleteOrder(string orderId)
+        {
+            try
+            {
+                UpdateResult result = null;
+                if (orderId != null)
+                {
+                    // check if Id is valid
+                    var loadedEntity = await Get(orderId);
+
+                    if (loadedEntity != null && loadedEntity.Id != null)
+                    {
+                        var filter = Builders<Order>.Filter.Eq("OrderId", orderId);
+                        var updateField = Builders<Order>.Update.Set("State", "Payed");
+
+                        result = await _context.Order.
+                            UpdateManyAsync(filter, updateField);
+
+                    }
+                }
+
+                return
+                    result != null &&
+                    result.IsAcknowledged
+                    && result.ModifiedCount > 0;
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }
