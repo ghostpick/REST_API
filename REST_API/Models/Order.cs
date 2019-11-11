@@ -26,6 +26,7 @@ namespace REST_API.Models
         [BsonRepresentation(BsonType.String), BsonElement(elementName: "OrderId")]
         public string OrderId { get; set; }
 
+
         /// <summary>
         /// Gets or sets the username.
         /// </summary>
@@ -61,5 +62,14 @@ namespace REST_API.Models
         /// </value>
         [BsonRepresentation(BsonType.String), BsonElement(elementName: "State")]
         public string State { get; set; }
+
+        /// <summary>
+        /// Gets or sets the order identifier.
+        /// </summary>
+        /// <value>
+        /// The order identifier.
+        /// </value>
+        [BsonRepresentation(BsonType.String), BsonElement(elementName: "VoucherId")]
+        public string VoucherId { get; set; }
     }
 }

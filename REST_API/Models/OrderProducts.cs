@@ -46,6 +46,15 @@ namespace REST_API.Models
         public string ProductCode { get; set; }
 
         /// <summary>
+        /// Gets or sets the order identifier.
+        /// </summary>
+        /// <value>
+        /// The order identifier.
+        /// </value>
+        [BsonRepresentation(BsonType.String), BsonElement(elementName: "VoucherId")]
+        public string VoucherId { get; set; }
+
+        /// <summary>
         /// Gets or sets the quantity.
         /// </summary>
         /// <value>
@@ -71,5 +80,14 @@ namespace REST_API.Models
         /// </value>
         [BsonElement(elementName: "Product")]
         public List<Product> Product { get; set; }
+
+        /// <summary>
+        /// Gets or sets the product.
+        /// </summary>
+        /// <value>
+        /// The product.
+        /// </value>
+        [BsonElement(elementName: "Voucher")]
+        public List<Voucher> Voucher { get; set; }
     }
 }

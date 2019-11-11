@@ -6,6 +6,7 @@ using REST_API.Interfaces;
 using REST_API.Models;
 using MongoDB.Bson;
 using System;
+using System.Linq;
 
 namespace REST_API.Data.Repositores
 {
@@ -177,6 +178,14 @@ namespace REST_API.Data.Repositores
                         .Add("foreignField", "ProductCode")
                         .Add("as", "Product")));
 
+            // join voucher
+            filter.Add(
+                new BsonDocument("$lookup", new BsonDocument()
+                        .Add("from", "Voucher")
+                        .Add("localField", "VoucherId")
+                        .Add("foreignField", "VoucherId")
+                        .Add("as", "Voucher")));
+
 
             PipelineDefinition<BsonDocument, OrderProducts> pipeline = filter;
 
@@ -194,6 +203,8 @@ namespace REST_API.Data.Repositores
         {
             string orderId = Guid.NewGuid().ToString().ToUpper().Substring(4, 24);
             List<Order> ordersForCreate = new List<Order>();
+            List<string> voucherIds = new List<string>();
+
             foreach (var order in orders)
             {
                 Order orderForCreate = new Order();
@@ -201,9 +212,22 @@ namespace REST_API.Data.Repositores
                 orderForCreate.OrderId = orderId;
                 orderForCreate.State = "In Progress";
                 ordersForCreate.Add(orderForCreate);
-            }
 
+                if(order.VoucherId != null)
+                {
+                    voucherIds.Add(order.VoucherId);
+                }
+            }
+            voucherIds = voucherIds.Distinct().ToList();
             await _context.Order.InsertManyAsync(orders);
+
+            if(voucherIds.Count > 0)
+            {
+                var idListFilter = Builders<Voucher>.Filter.In(v => v.VoucherId, voucherIds);
+                var updateField = Builders<Voucher>.Update.Set("State", "Inactive");
+
+                await _context.Voucher.UpdateManyAsync(idListFilter, updateField);
+            }
 
             return orderId;
         }

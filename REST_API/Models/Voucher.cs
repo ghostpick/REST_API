@@ -23,7 +23,7 @@ namespace REST_API.Models
         /// <value>
         /// The order identifier.
         /// </value>
-        [BsonRepresentation(BsonType.ObjectId), BsonElement(elementName: "VoucherId")]
+        [BsonRepresentation(BsonType.String), BsonElement(elementName: "VoucherId")]
         public string VoucherId { get; set; }
 
         /// <summary>
