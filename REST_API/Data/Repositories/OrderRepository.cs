@@ -249,12 +249,39 @@ namespace REST_API.Data.Repositores
 
                     if (loadedEntity != null && loadedEntity.Id != null)
                     {
+                        // update order to state payed
                         var filter = Builders<Order>.Filter.Eq("OrderId", orderId);
                         var updateField = Builders<Order>.Update.Set("State", "Payed");
 
                         result = await _context.Order.
                             UpdateManyAsync(filter, updateField);
 
+                        // increment voucher status
+                        if (result != null && result.IsAcknowledged&& result.ModifiedCount > 0)
+                        {
+                            Order order = await this.Get(orderId);
+
+                            var filters = 
+                                Builders<Voucher>.Filter.Eq(v => v.State, "In Progress") &
+                                Builders<Voucher>.Filter.Lt(v => v.StateProgress, 100) &
+                                Builders<Voucher>.Filter.Eq(v => v.Username, order.Username);
+
+                            List<Voucher> vouchers = await _context.Voucher.Find(filters).ToListAsync();
+
+                            foreach (var item in vouchers)
+                            {
+                                var nestedFilter = filters & Builders<Voucher>.Filter.Eq(v => v.Id, item.Id);
+
+                                item.StateProgress += 1;
+
+                                if(item.StateProgress == 100)
+                                {
+                                    item.State = "Active";
+                                }
+                                await _context.Voucher.ReplaceOneAsync(filters, item);
+
+                            }
+                        }
                     }
                 }
 

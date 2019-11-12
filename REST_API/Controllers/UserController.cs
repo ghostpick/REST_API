@@ -45,7 +45,7 @@ namespace REST_API.Controllers
         [HttpGet("{username}")]
         public async Task<ActionResult<User>> GetAsync(string username)
         {
-            var entity =  await _repo.Get(username) ?? new User();
+            var entity = await _repo.Get(username) ?? new User();
 
             if (entity != null && entity.Id != null)
             {
@@ -55,7 +55,6 @@ namespace REST_API.Controllers
             {
                 return NotFound();
             }
-
         }
 
         /// <summary>
@@ -120,6 +119,27 @@ namespace REST_API.Controllers
             else
             {
                 return StatusCode(400, new { result = Messages.MESSAGE_006 });
+            }
+        }
+
+
+        /// <summary>
+        /// Gets the asynchronous.
+        /// </summary>
+        /// <param name="username">The username.</param>
+        /// <returns></returns>
+        [HttpGet("Login/")]
+        public async Task<ActionResult<User>> LoginAsync(string username, string password)
+        {
+            var entity = await _repo.LoginAsync(username, password);
+
+            if (entity != null && entity.Id != null)
+            {
+                return entity;
+            }
+            else
+            {
+                return NotFound();
             }
         }
     }

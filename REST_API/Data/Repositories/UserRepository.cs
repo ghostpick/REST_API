@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using REST_API.Interfaces;
 using REST_API.Models;
+using System;
+using REST_API.Data.Repositories;
 
 namespace REST_API.Data.Repositores
 {
@@ -73,8 +75,12 @@ namespace REST_API.Data.Repositores
             try
             {
                 entity.Id = MongoDB.Bson.ObjectId.GenerateNewId().ToString();
-                
+                entity.Token = Guid.NewGuid().ToString().ToUpper().Substring(4, 24);
+
                 await _context.User.InsertOneAsync(entity);
+
+                InitialData init = new InitialData();
+                await init.InitialVouchers(_context, entity.Username);
                 return entity;
             }
             catch
@@ -139,6 +145,44 @@ namespace REST_API.Data.Repositores
             {
                 return false;
             }
+        }
+
+        /// <summary>
+        /// Logins the asynchronous.
+        /// </summary>
+        /// <param name="username">The username.</param>
+        /// <param name="password">The password.</param>
+        /// <returns></returns>
+        public async Task<User> LoginAsync(string username, string password)
+        {
+            var filters =
+                Builders<User>.Filter.Eq(u => u.Username, username) &
+                Builders<User>.Filter.Eq(u => u.Password, password);
+
+            try
+            {
+                var user = _context.User
+                                .Find(filters)
+                                .FirstOrDefaultAsync();
+
+                if (user != null)
+                {
+                    var updateField = Builders<User>.Update.Set("Token", Guid.NewGuid().ToString().ToUpper().Substring(4, 24));
+                    var updateResult = await _context.User.UpdateManyAsync(filters, updateField);
+
+                    if (updateResult != null && updateResult.IsAcknowledged && updateResult.ModifiedCount > 0)
+                    {
+                        return await _context.User.Find(filters).FirstOrDefaultAsync();
+                    }
+                }
+
+            }
+            catch
+            {
+                return null;
+            }
+
+            return null;
         }
     }
 }

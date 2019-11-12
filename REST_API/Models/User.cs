@@ -100,5 +100,13 @@ namespace REST_API.Models
         [BsonRepresentation(BsonType.String), BsonElement(elementName: "PublicKeyExponent")]
         public string PublicKeyExponent { get; set; }
 
+        /// <summary>
+        /// Gets or sets the token.
+        /// </summary>
+        /// <value>
+        /// The token.
+        /// </value>
+        [BsonRepresentation(BsonType.String), BsonElement(elementName: "Token")]
+        public string Token { get; set; }
     }
 }
