@@ -140,5 +140,16 @@ namespace REST_API.Controllers
         {
             return await _repo.GetUsersVoucher(username, "In Progress");
         }
+
+        /// <summary>
+        /// Gets the users vouchers.
+        /// </summary>
+        /// <param name="username">The username.</param>
+        /// <returns></returns>
+        [HttpGet("GetUserVouchers/")]
+        public async Task<IEnumerable<Voucher>> GetUsersVouchers(string username)
+        {
+            return await _repo.GetUsersVoucher(username, null);
+        }
     }
 }

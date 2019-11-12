@@ -31,7 +31,7 @@ namespace REST_API.Data.Repositories
             voucher.Discount = 20;
             voucher.Username = username;
             voucher.State = "In Progress";
-            voucher.StateProgress = 98;
+            voucher.StateProgress = 99;
             vouchers.Add(voucher);
 
             Voucher voucher1 = new Voucher();
@@ -40,7 +40,7 @@ namespace REST_API.Data.Repositories
             voucher1.Discount = 50;
             voucher1.Username = username;
             voucher1.State = "In Progress";
-            voucher1.StateProgress = 96;
+            voucher1.StateProgress = 97;
             vouchers.Add(voucher1);
 
             await context.Voucher.InsertManyAsync(vouchers);

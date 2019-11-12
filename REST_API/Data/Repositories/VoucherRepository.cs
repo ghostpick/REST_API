@@ -149,9 +149,17 @@ namespace REST_API.Data.Repositores
         /// <returns></returns>
         public async Task<IEnumerable<Voucher>> GetUsersVoucher(string username, string state)
         {
-            var filters =
-                Builders<Voucher>.Filter.Eq(f => f.Username, username) &
-                Builders<Voucher>.Filter.Eq(f => f.State, state);
+            FilterDefinition<Voucher> filters;
+
+            if (state != null){
+                filters =
+                    Builders<Voucher>.Filter.Eq(f => f.Username, username) &
+                    Builders<Voucher>.Filter.Eq(f => f.State, state);
+            }
+            else
+            {
+                filters = Builders<Voucher>.Filter.Eq(f => f.Username, username);
+            }
 
             return await _context.Voucher
                             .Find(filters)
